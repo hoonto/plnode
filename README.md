@@ -125,6 +125,7 @@ References:
 ===
 * [Node itself](https://github.com/joyent/node)
 * [PLV8 itself](https://code.google.com/p/plv8js/wiki/PLV8)
+* [V8 Embedders Guide](https://developers.google.com/v8/embed)
 * [PLV8 on PGXN](http://pgxn.org/dist/plv8/)
 * [A comment that helped out in the beginning](http://comments.gmane.org/gmane.comp.lang.javascript.nodejs/48685)
 * [A Node.js thread with respect to exceptions](http://logs.nodejs.org/libuv/2013-03-17)

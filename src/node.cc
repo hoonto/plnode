@@ -3050,8 +3050,10 @@ static char **copy_argv(int argc, char **argv) {
 void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate, Persistent<Context> &contextref, Handle<Object> &processref, char** &argvcopyref){
 
     //MLM: TESTING:
-    //Persistent<Context> global_context = Context::New(NULL, globaltemplate);
-    //contextref = global_context;
+    Persistent<Context> global_context = Context::New(NULL, globaltemplate);
+    contextref = global_context;
+    return;
+    //MLM: Now to get node working:
     
 
 
