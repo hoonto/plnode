@@ -58,9 +58,9 @@ So this Postgres PL Extension is composed of three files, the .control, .sql and
 
 Mileage may vary, in this example mine go here:
 
-> /usr/lib64/pgsql/plnode.so
-> /usr/share/pgsql/extension/plnode.control
-> /usr/share/pgsql/extension/plnode--1.4.1.sql
+* /usr/lib64/pgsql/plnode.so
+* /usr/share/pgsql/extension/plnode.control
+* /usr/share/pgsql/extension/plnode--1.4.1.sql
 
 ```
 cp ./out/Release/lib.target/libnode.so /usr/lib64/pgsql/plnode.so
