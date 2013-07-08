@@ -42,15 +42,19 @@ and comment line 92, not sure if this is actually needed, but got the recommenda
 
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
-I debated about whether I should stick Node into PLV8 or stick PLV8 into Node... decisions, decisions.
-I like Node's project strucuture and it's certainly the larger source base, so felt it was easier, less hack-ish to go this route.
+I debated about whether I should stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it's certainly the larger source base, so going that route I modified plv8 source to be named plnode, and stuck that into Node's deps, adding some gyp stuff here and there.  Ok done.
+
+*Note* node.cc had to get a couple of functions so we could get all that touch-feely node love 
+> Ever listen to Nodeup?  Does it make you feel like a golden methylenedioxy bridge too? Maybe it's an SF thing.
+
+Ok cool, now we can
 
 ```
 ./configure
 make
 ```
 
-and find your shared library here:  ./out/Release/lib.target/libnode.so
+and find a shared library here:  ./out/Release/lib.target/libnode.so
 
 #### Step 3: Make the PL extension.
 
@@ -119,7 +123,4 @@ plnode.elog(NOTICE, 'init completed.');
 $$ language plnode volatile;
 ```
 
-Ok that doesn't work yet.  Soon young padawan, very soon.
-
-
-```
+Ok that doesn't work yet.  That's where I'm at.
