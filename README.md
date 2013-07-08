@@ -14,7 +14,7 @@ Heresy?  Abomination?  Irrelevent to edge efforts.
 
 Currently this is extremely alpha.  It will neither build, nor work.  It is based on [Node.js](http://nodejs.org/) and [PLV8](https://code.google.com/p/plv8js/wiki/PLV8) drawing heavily from both and attempting to change as little as possible while still achieving the goal.
 
-plnode appreciates hate-mail, please don't hesitater to send your most virulent thoughts.  But back them up or it will respond in kind.
+plnode appreciates hate-mail, please don't hesitater to send your most virulent thoughts.
 
 Current notes
 ===
