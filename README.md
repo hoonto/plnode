@@ -141,3 +141,8 @@ Other interesting links:
 * [libnode, not sure what ultimate purpose is, but interesting nonetheless](https://github.com/plenluno/libnode)
 * [Jerry Sievert's PLV8 fork that sounds interesting](https://github.com/JerrySievert/plv8)
 
+And possibly the coolest of all:
+===
+* [Postgres-XC 1.1 beta](http://postgres-xc.sourceforge.net/) is out and [why that is not only cool, but relevant](http://www.slideshare.net/stormdb_cloud_database/postgres-xc-askeyvaluestorevsmongodb)
+
+
