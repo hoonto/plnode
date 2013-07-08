@@ -33,13 +33,12 @@ and in node.gyp, around line 67-ish modify target type from executable to shared
 'type': 'shared_library',
 ```
 
-Done.
-
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
 I debated about whether to stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
 
 **Note** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
+**Warning** plnode.gyp turns on C++ exceptions.
 
 ```
 ./configure
@@ -105,6 +104,8 @@ Cool, PLV8 did not lead us astray.  But simply running some JS is not exactly wh
 
 #### Step 5: Abomination, Heresy:
 
+**Note** This probably doesn't work yet, but it will soon be one of many neat tricks to come:
+
 ```
 plnodetest=# set plnode.start_proc='initnode';
 plnodetest=# create or replace function initnode() returns void as $$ 
@@ -117,4 +118,3 @@ plnode.elog(NOTICE, 'init completed.');
 $$ language plnode volatile;
 ```
 
-This probably doesn't work yet.  That's where I'm at.
