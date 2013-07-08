@@ -37,8 +37,9 @@ and in node.gyp, around line 67-ish modify target type from executable to shared
 
 I debated about whether to stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
 
-**Note** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
-**Warning** plnode.gyp turns on C++ exceptions.
+**Note:** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
+
+**Warning:** plnode.gyp turns on C++ exceptions.
 
 ```
 ./configure
@@ -53,13 +54,13 @@ This should be done in a gyp action probably node.gyp, but for now just manually
 
 So this Postgres PL Extension is composed of three files, the .control, .sql and .so.  In the repository, in deps/plnode you can find an example .control and .sql that will work if the .so is named plnode.so.
 
-*Note* In this case I'm building the 64 bit version, but in high load circumstances I've found 32-bit builds of Node/V8 vastly out-perform 64-bit builds. So if you're building 32-bit node (which I personally recommend), plop that in /usr/lib/pgsql instead and modify plnode.control appropriately.
+**Note:** In this case I'm building the 64 bit version, but in high load circumstances I've found 32-bit builds of Node/V8 vastly out-perform 64-bit builds. So if you're building 32-bit node (which I personally recommend), plop that in /usr/lib/pgsql instead and modify plnode.control appropriately.
 
 Mileage may vary, in this example mine go here:
 
-/usr/lib64/pgsql/plnode.so
-/usr/share/pgsql/extension/plnode.control
-/usr/share/pgsql/extension/plnode--1.4.1.sql
+> /usr/lib64/pgsql/plnode.so
+> /usr/share/pgsql/extension/plnode.control
+> /usr/share/pgsql/extension/plnode--1.4.1.sql
 
 ```
 cp ./out/Release/lib.target/libnode.so /usr/lib64/pgsql/plnode.so
@@ -67,11 +68,11 @@ cp ./deps/plnode/plnode.control /usr/share/pgsql/extension/
 cp ./deps/plnode/plnode--1.4.1.sql /usr/share/pgsql/extension/
 ```
 
-*Note* I rename libnode.so to plnode.so as well.
+**Note:** I rename libnode.so to plnode.so as well.
 
 #### Step 4: Load it up!
 
-*Node* I'm using an old postgres-XC coordinator port convention:
+**Node:** I'm using an old postgres-XC coordinator port convention:
 
 ```
 psql -U postgres -p 20002
@@ -117,4 +118,23 @@ http.createServer(function (req, res) {
 plnode.elog(NOTICE, 'init completed.');
 $$ language plnode volatile;
 ```
+
+References:
+===
+* [Node itself](https://github.com/joyent/node)
+* [PLV8 itself](https://code.google.com/p/plv8js/wiki/PLV8)
+* [PLV8 on PGXN](http://pgxn.org/dist/plv8/)
+* [A comment that helped out in the beginning](http://comments.gmane.org/gmane.comp.lang.javascript.nodejs/48685)
+* [A Node.js thread with respect to exceptions](http://logs.nodejs.org/libuv/2013-03-17)
+* [Does v8 play well with native exceptions?](http://www.mail-archive.com/v8-users@googlegroups.com/msg00871.html)
+* [To enable exceptions in gyp for Node](https://github.com/TooTallNate/node-gyp/issues/17)
+
+Other interesting links:
+===
+* [plv8-jpath](https://github.com/adunstan/plv8-jpath)
+* [PLV8 JSON Selectors](http://www.postgresonline.com/journal/archives/272-Using-PLV8-to-build-JSON-selectors.html)
+* [jsonselect](http://jsonselect.org/#overview)
+* [Postgres 9.3 beta 2 JSON accoutrements](http://www.postgresql.org/docs/9.3/static/functions-json.html)
+* [libnode, not sure what ultimate purpose is, but interesting nonetheless](https://github.com/plenluno/libnode)
+* [Jerry Sievert's PLV8 fork that sounds interesting](https://github.com/JerrySievert/plv8)
 
