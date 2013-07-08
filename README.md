@@ -3,8 +3,7 @@ plnode
 
 ### Evented I/O for Javascript via Node.js stuffed straight up Postgres' sweet PL.
 
-
-* Based on Node.js: v0.10.12-release
+git clone -b  v0.10.12-plnode-0.0.1  https://github.com/hoonto/plnode.git
 
 This is merely an edge effort.  An effort to add yet another edge to the rapid evolution of web-oriented frameworks.
 
