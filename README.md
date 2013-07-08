@@ -18,7 +18,7 @@ Currently this is extremely alpha.  It will neither build, nor work.  It is base
 
 plnode is like Grandpas chili peppers, tongue-lashing and hate-mail only make it stronger, so please send your most virulent thoughts.
 
-!['peppers'](http://static.hoonto.com/images/peppers.png)
+![peppers](http://static.hoonto.com/images/peppers.png)
 
 Current notes
 ===
