@@ -1,7 +1,7 @@
 plnode
 ===
 
-### Evented I/O stuffed straight up Postgres' sweet PL.
+### Evented I/O for Javascript via Node.js/V8 stuffed straight up Postgres' sweet PL.
 
 This is merely an edge effort.  An effort to add yet another edge to the rapid evolution of web-oriented frameworks.
 
