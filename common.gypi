@@ -160,7 +160,7 @@
         ],
       }],
       [ 'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris"', {
-        'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', '-pthread', ],
+        'cflags': [ '-fPIC', '-Wall', '-Wextra', '-Wno-unused-parameter', '-pthread', ],
         'cflags_cc': [ '-fno-rtti', '-fno-exceptions' ],
         'ldflags': [ '-pthread', '-rdynamic' ],
         'target_conditions': [

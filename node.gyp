@@ -10,6 +10,7 @@
     'node_has_winsdk%': 'false',
     'node_shared_v8%': 'false',
     'node_shared_zlib%': 'false',
+    'node_shared_plnode%': 'false',
     'node_shared_http_parser%': 'false',
     'node_shared_cares%': 'false',
     'node_shared_libuv%': 'false',
@@ -64,7 +65,8 @@
   'targets': [
     {
       'target_name': 'node',
-      'type': 'executable',
+      # MLM: Changed from executable to shared_library 
+      'type': 'shared_library',
 
       'dependencies': [
         'node_js2c#host',
@@ -88,7 +90,8 @@
         'src/node_file.cc',
         'src/node_http_parser.cc',
         'src/node_javascript.cc',
-        'src/node_main.cc',
+        ## MLM: removed from list of sources:
+        # 'src/node_main.cc',
         'src/node_os.cc',
         'src/node_script.cc',
         'src/node_stat_watcher.cc',
@@ -234,6 +237,11 @@
           'dependencies': [ 'deps/zlib/zlib.gyp:zlib' ],
         }],
 
+        # MLM: Added this:
+        [ 'node_shared_plnode=="false"', {
+          'dependencies': [ 'deps/plnode/plnode.gyp:plnode' ],
+        }],
+
         [ 'node_shared_http_parser=="false"', {
           'dependencies': [ 'deps/http_parser/http_parser.gyp:http_parser' ],
         }],
@@ -244,6 +252,23 @@
 
         [ 'node_shared_libuv=="false"', {
           'dependencies': [ 'deps/uv/uv.gyp:libuv' ],
+        }],
+        # MLM: Added this:
+        [ 'OS=="linux"', {
+        'cflags': ['-fPIC']#,  # needed on 64-bit linux, for the .node SO to work
+          #'libraries': [
+          #  '../mylib/mylib.so'  # put your own library requirements here
+          #],
+          #'include_dirs': [
+          #   'src/',
+          #   '<@(node_root)/include/node',
+          #   '<@(node_root)/include',
+          #   '<@(node_root)/deps/uv/include/uv-private',
+          #   '../expanded-prereqs/include'
+          #'defines': [
+          #  #'HAVE_CAIRO',
+          #  '_LARGEFILE_SOURCE'
+          #],
         }],
 
         [ 'OS=="win"', {

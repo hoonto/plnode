@@ -90,6 +90,10 @@ NODE_EXTERN extern bool no_deprecation;
 
 NODE_EXTERN int Start(int argc, char *argv[]);
 
+//// MLM: Added the next 2
+NODE_EXTERN void buildContext(int argc, char *argv[], v8::Handle<v8::ObjectTemplate> globaltemplate, v8::Persistent<v8::Context> &contextref,  v8::Handle<v8::Object> &processref, char** &argvcopyref);
+NODE_EXTERN int runContext(v8::Persistent<v8::Context> contextref, v8::Handle<v8::Object> processref, char** argvcopyref);
+
 char** Init(int argc, char *argv[]);
 v8::Handle<v8::Object> SetupProcessObject(int argc, char *argv[]);
 void Load(v8::Handle<v8::Object> process);
@@ -256,6 +260,7 @@ MakeCallback(const v8::Handle<v8::Object> object,
              const v8::Handle<v8::Function> callback,
              int argc,
              v8::Handle<v8::Value> argv[]);
+
 
 }  // namespace node
 

@@ -2302,10 +2302,13 @@ Handle<Object> SetupProcessObject(int argc, char *argv[]) {
 
   // process.argv
   Local<Array> arguments = Array::New(argc - option_end_index + 1);
-  arguments->Set(Integer::New(0), String::New(argv[0]));
-  for (j = 1, i = option_end_index; i < argc; j++, i++) {
-    Local<String> arg = String::New(argv[i]);
-    arguments->Set(Integer::New(j), arg);
+  //MLM: argv may be zero if called from another process, like postgres:
+  if(argc > 0){
+    arguments->Set(Integer::New(0), String::New(argv[0]));
+    for (j = 1, i = option_end_index; i < argc; j++, i++) {
+        Local<String> arg = String::New(argv[i]);
+        arguments->Set(Integer::New(j), arg);
+    }
   }
   // assign it
   process->Set(String::NewSymbol("argv"), arguments);
@@ -2490,9 +2493,12 @@ void Load(Handle<Object> process_l) {
 
   f->Call(global, 1, args);
 
+  /// MLM: This fucks shit up
+  /*
   if (try_catch.HasCaught())  {
     FatalException(try_catch);
   }
+  */
 }
 
 static void PrintHelp();
@@ -3038,6 +3044,87 @@ static char **copy_argv(int argc, char **argv) {
   argv_copy[argc] = NULL;
 
   return argv_copy;
+}
+
+//MLM: Build a context for plnode
+void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate, Persistent<Context> &contextref, Handle<Object> &processref, char** &argvcopyref){
+
+    //MLM: TESTING:
+    //Persistent<Context> global_context = Context::New(NULL, globaltemplate);
+    //contextref = global_context;
+    
+
+
+    
+  // Hack aroung with the argv pointer. Used for process.title = "blah".
+  argv = uv_setup_args(argc, argv);
+
+  // Logic to duplicate argv as Init() modifies arguments
+  // that are passed into it.
+  char **argv_copy = copy_argv(argc, argv);
+
+  // This needs to run *before* V8::Initialize()
+  // Use copy here as to not modify the original argv:
+  Init(argc, argv_copy);
+
+  V8::Initialize();
+  {
+
+    Locker locker;
+    HandleScope handle_scope;
+
+    // Create the one and only Context.
+    Persistent<Context> context = Context::New(NULL, globaltemplate);
+    //MLM: TESTING:
+    contextref = global_context;
+    return;
+    
+    Context::Scope context_scope(context);
+
+    // Use original argv, as we're just copying values out of it.
+    Handle<Object> process_l = SetupProcessObject(argc, argv);
+    v8_typed_array::AttachBindings(context->Global());
+
+    // Create all the objects, load modules, do everything.
+    // so your next reading stop should be node::Load()!
+    Load(process_l);
+    contextref = context;
+    processref = process_l; //this is our global I think.
+    argvcopyref = argv_copy;
+  }
+}
+
+//MLM: runContext
+//     must call buildContext(0) first
+int runContext(Persistent<Context> context, Handle<Object> process, char** argvcopy){
+  // All our arguments are loaded. We've evaluated all of the scripts. We
+  // might even have created TCP servers. Now we enter the main eventloop. If
+  // there are no watchers on the loop (except for the ones that were
+  // uv_unref'd) then this function exits. As long as there are active
+  // watchers, it blocks.
+  uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+
+////MLM: We don't exit.
+/*
+  return 0;
+
+  EmitExit(process);
+  RunAtExit();
+
+#ifndef NDEBUG
+  context.Dispose();
+#endif
+
+#ifndef NDEBUG
+  // Clean up. Not strictly necessary.
+  V8::Dispose();
+#endif  // NDEBUG
+
+  // Clean up the copy:
+  free(argvcopy);
+*/
+
+  return 0;
 }
 
 int Start(int argc, char *argv[]) {
