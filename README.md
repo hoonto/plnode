@@ -42,10 +42,9 @@ and comment line 92, not sure if this is actually needed, but got the recommenda
 
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
-I debated about whether I should stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it's certainly the larger source base, so going that route I modified plv8 source to be named plnode, and stuck that into Node's deps, adding some gyp stuff here and there.  Ok done.
+I debated about whether to stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it's certainly the larger source base, so going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding the gyp changes and so forth.
 
-*Note* node.cc had to get a couple of functions so we could get all that touch-feely node love 
-> Ever listen to Nodeup?  Does it make you feel like a golden methylenedioxy bridge too? Maybe it's an SF thing.
+*Note* node.cc got a couple of functions so it could baste itself in that touch-feely node love 
 
 Ok cool, now we can
 
