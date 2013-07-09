@@ -43,7 +43,7 @@ I debated about whether to stick Node into PLV8 or stick PLV8 into Node.  I like
 
 **Note:** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
 
-**Warning:** plnode.gyp turns on C++ exceptions.
+**Warning:** I'm turning on C++ exceptions in plnode.gyp, I'm aware of some of the exception issues the V8 team dealt with, but I would be happy to be further enlighted if anyone has more insight into that situation and how it may impact plnode.
 
 ```
 ./configure
