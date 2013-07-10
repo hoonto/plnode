@@ -3049,14 +3049,6 @@ static char **copy_argv(int argc, char **argv) {
 //MLM: Build a context for plnode
 void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate, Persistent<Context> &contextref, Handle<Object> &processref, char** &argvcopyref){
 
-    //MLM: TESTING:
-    Persistent<Context> global_context = Context::New(NULL, globaltemplate);
-    contextref = global_context;
-    return;
-    //MLM: Now to get node working:
-    
-
-
     
   // Hack aroung with the argv pointer. Used for process.title = "blah".
   argv = uv_setup_args(argc, argv);
@@ -3072,15 +3064,11 @@ void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate,
   V8::Initialize();
   {
 
-    Locker locker;
+    //Locker locker;
     HandleScope handle_scope;
 
     // Create the one and only Context.
     Persistent<Context> context = Context::New(NULL, globaltemplate);
-    //MLM: TESTING:
-    contextref = global_context;
-    return;
-    
     Context::Scope context_scope(context);
 
     // Use original argv, as we're just copying values out of it.
@@ -3091,7 +3079,7 @@ void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate,
     // so your next reading stop should be node::Load()!
     Load(process_l);
     contextref = context;
-    processref = process_l; //this is our global I think.
+    processref = process_l;
     argvcopyref = argv_copy;
   }
 }
