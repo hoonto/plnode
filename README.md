@@ -123,6 +123,95 @@ plnode.elog(NOTICE, 'init completed.');
 $$ language plnode volatile;
 ```
 
+But this does... getting closer:
+
+```
+livenode=# create extension plnode;
+CREATE EXTENSION
+livenode=# create or replace function initnode() returns void as $$
+plnode.elog(NOTICE,'hello from initnode:' + typeof require + ', ' + typeof process);for(item in process){ plnode.elog(NOTICE,'item == ' + item); }
+plnode.elog(NOTICE, 'init completed.');
+$$ language plnode volatile;
+CREATE FUNCTION
+livenode=# SELECT initnode();
+NOTICE:  hello from initnode:undefined, object
+NOTICE:  item == title
+NOTICE:  item == version
+NOTICE:  item == moduleLoadList
+NOTICE:  item == versions
+NOTICE:  item == arch
+NOTICE:  item == platform
+NOTICE:  item == argv
+NOTICE:  item == execArgv
+NOTICE:  item == env
+NOTICE:  item == pid
+NOTICE:  item == features
+NOTICE:  item == _needImmediateCallback
+NOTICE:  item == execPath
+NOTICE:  item == debugPort
+NOTICE:  item == _getActiveRequests
+NOTICE:  item == _getActiveHandles
+NOTICE:  item == _needTickCallback
+NOTICE:  item == reallyExit
+NOTICE:  item == abort
+NOTICE:  item == chdir
+NOTICE:  item == cwd
+NOTICE:  item == umask
+NOTICE:  item == getuid
+NOTICE:  item == setuid
+NOTICE:  item == setgid
+NOTICE:  item == getgid
+NOTICE:  item == getgroups
+NOTICE:  item == setgroups
+NOTICE:  item == initgroups
+NOTICE:  item == _kill
+NOTICE:  item == _debugProcess
+NOTICE:  item == _debugPause
+NOTICE:  item == _debugEnd
+NOTICE:  item == hrtime
+NOTICE:  item == dlopen
+NOTICE:  item == uptime
+NOTICE:  item == memoryUsage
+NOTICE:  item == binding
+NOTICE:  item == _usingDomains
+NOTICE:  item == _tickInfoBox
+NOTICE:  item == _events
+NOTICE:  item == domain
+NOTICE:  item == _maxListeners
+NOTICE:  item == EventEmitter
+NOTICE:  item == _fatalException
+NOTICE:  item == _exiting
+NOTICE:  item == assert
+NOTICE:  item == config
+NOTICE:  item == nextTick
+NOTICE:  item == _nextDomainTick
+NOTICE:  item == _tickCallback
+NOTICE:  item == _tickDomainCallback
+NOTICE:  item == _tickFromSpinner
+NOTICE:  item == maxTickDepth
+NOTICE:  item == stdout
+NOTICE:  item == stderr
+NOTICE:  item == stdin
+NOTICE:  item == openStdin
+NOTICE:  item == exit
+NOTICE:  item == kill
+NOTICE:  item == addListener
+NOTICE:  item == on
+NOTICE:  item == removeListener
+NOTICE:  item == setMaxListeners
+NOTICE:  item == emit
+NOTICE:  item == once
+NOTICE:  item == removeAllListeners
+NOTICE:  item == listeners
+NOTICE:  init completed.
+ initnode
+----------
+```
+
+Good, but where's my mainModule?  No mainModule, no require, not all of the dice yet
+
+
+(1 row)
 References:
 ===
 * [Node itself](https://github.com/joyent/node)
