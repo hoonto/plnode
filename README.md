@@ -14,7 +14,7 @@ Later, I'd like to further evolve it with Postgres-XC as well, allowing for a wr
 Another interesting thing that may become possible is running a full stack straight out of your database.  
 Heresy?  Abomination?  Irrelevent to edge efforts.
 
-Currently this is extremely alpha.  It will neither build, nor work.  It is based on [Node.js](http://nodejs.org/) and [PLV8](https://code.google.com/p/plv8js/wiki/PLV8) drawing heavily from both and attempting to change as little as possible while still achieving the goal.
+Currently this is extremely alpha. It is based on [Node.js](http://nodejs.org/) and [PLV8](https://code.google.com/p/plv8js/wiki/PLV8) drawing heavily from both and attempting to change as little as possible while still achieving the goal.
 
 plnode is like Grandpas chili peppers, tongue-lashing and hate-mail only make it stronger, so please send your most virulent thoughts.
 
