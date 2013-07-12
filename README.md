@@ -231,10 +231,10 @@ if(!!require) { var test = require('./testplnode.js'); } plnode.elog(NOTICE, 'in
 ompleted.');
 $$ language plnode volatile;
 NOTICE:  init completed.
--bash-4.2$
 ```
 
-where testplnode.js goes inside Postgres' data directory and contains:
+At this point it does not return to the psql prompt.
+testplnode.js goes inside Postgres' data directory and contains:
 
 ```
 -bash-4.2$ cat testplnode.js
@@ -250,7 +250,7 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 ```
 
-and when looking at the filesystem, the PLNODEWORKS file was created in the ./data directory and the server on 1337 was created successfully:
+When looking at the filesystem, the PLNODEWORKS file was created in the ./data directory and the server on 1337 was created successfully:
 
 ```
 -bash-4.2$ pwd
@@ -268,23 +268,20 @@ However, upon connection to the http server it immediately closes:
 
 ```
 -bash-4.2$ telnet localhost 1337
-Trying ::1...
-telnet: connect to address ::1: Connection refused
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
 Connection closed by foreign host.
 ```
 
-and in the psql console gave:
+and in the psql console:
 
 ```
 The connection to the server was lost. Attempting reset: Failed.
 !> \q
--bash-4.2$
 ```
 
-I didn't see the "Hello World", but it is a step closer as libuv did up the reference count due to the instantiation of the http server, as it should.
+I didn't see the "Hello World" come back to the client, but it is a step closer as the uv reference count was incremented due to the instantiation of the http server, as it should.
 
 References:
 ===
