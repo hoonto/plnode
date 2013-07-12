@@ -231,8 +231,6 @@ if(!!require) { var test = require('./testplnode.js'); } plnode.elog(NOTICE, 'in
 ompleted.');
 $$ language plnode volatile;
 NOTICE:  init completed.
-The connection to the server was lost. Attempting reset: Failed.
-!> \q
 -bash-4.2$
 ```
 
@@ -252,7 +250,7 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 ```
 
-and results are:
+and when looking at the filesystem, the PLNODEWORKS file was created in the ./data directory and the server on 1337 was created successfully:
 
 ```
 -bash-4.2$ pwd
@@ -264,6 +262,11 @@ import.js  pg_log         pg_stat_tmp  PG_VERSION   postmaster.opts
 pg_clog    pg_multixact   pg_subtrans  pg_xlog      postmaster.pid
 -bash-4.2$ netstat -an |grep 1337
 tcp        0      0 127.0.0.1:1337          0.0.0.0:*               LISTEN
+```
+
+However, upon connection to the http server it immediately closes:
+
+```
 -bash-4.2$ telnet localhost 1337
 Trying ::1...
 telnet: connect to address ::1: Connection refused
@@ -273,8 +276,7 @@ Escape character is '^]'.
 Connection closed by foreign host.
 ```
 
-So it was able to import modules, write to the filesystem and start a server.
-When I connected, however, it immediately closed and in the psql console gave:
+and in the psql console gave:
 
 ```
 The connection to the server was lost. Attempting reset: Failed.
