@@ -1,0 +1,91 @@
+A Procedural Language in JavaScript powered by Node.js and V8
+=================================================
+
+plnode is a shared library that provides a PostgreSQL procedural language powered
+by Node.js which is powered by the V8 JavaScript Engine.  With this program you can write in JavaScript with access to Node.js API callable from SQL.
+
+REQUIREMENT
+-----------
+
+plnode is tested with:
+
+- PG: version 9.2 
+- V8: version 3.14.5
+- g++: version 4.5.1
+
+It may also work with some older versions of gcc and v8.
+
+Also all tools that PostgreSQL and Node.js require to be built are required if you are building those from source.
+
+INSTALL
+-------
+
+make
+
+Note that plnode is statically linked (Node.js is by default as well).
+
+Once you installed plnode into your database, create language via
+
+  $ psql -c 'CREATE EXTENSION plnode'
+  $ psql -c 'CREATE EXTENSION plls'
+  $ psql -c 'CREATE EXTENSION plcoffee'
+
+in 9.1 or later (untested), or in the prior versions
+
+  $ psql -f plnode.sql
+
+to create database objects.
+
+This has not been attempted Windows or MacOS, and will likely require a significant amount of tweaking to get working.
+
+EXAMPLE (JAVASCRIPT)
+--------------------
+
+  CREATE OR REPLACE FUNCTION plnode_test(keys text[], vals text[])
+  RETURNS text AS $$
+    var o = {};
+    for(var i=0; i<keys.length; i++){
+      o[keys[i]] = vals[i];
+    }
+    return JSON.stringify(o);
+  $$ LANGUAGE plnode IMMUTABLE STRICT;
+  
+  SELECT plnode_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+           plnode_test        
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+EXAMPLE (COFFEESCRIPT)
+----------------------
+
+  CREATE OR REPLACE FUNCTION plcoffee_test(keys text[], vals text[])
+  RETURNS text AS $$
+    return JSON.stringify(keys.reduce(((o, key, idx) ->
+      o[key] = vals[idx]; return o), {}), {})
+  $$ LANGUAGE plcoffee IMMUTABLE STRICT;
+  
+  SELECT plcoffee_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+         plcoffee_test       
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+EXAMPLE (LIVESCRIPT)
+--------------------
+
+  CREATE OR REPLACE FUNCTION plls_test(keys text[], vals text[])
+  RETURNS text AS $$
+    return JSON.stringify { [key, vals[idx]] for key, idx in keys }
+  $$ LANGUAGE plls IMMUTABLE STRICT;
+  
+  SELECT plls_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+           plls_test        
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+NOTES
+-----
+plnode was heavily derived and inspired by plv8, which is hosted at Google Project Hosting
+http://code.google.com/p/plv8js/

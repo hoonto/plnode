@@ -1,0 +1,64 @@
+{
+    "name": "plnode",
+    "abstract": "A procedural language in JavaScript powered by Node.js inspired by the incredibly awesome PLV8",
+    "description": "plnode is a trusted procedural language that gives access to everything Node from within Postgres.",
+    "version": "0.0.1",
+    "maintainer": [
+        "Matt Mullens <mmullens@hoonto.com>"
+    ],
+    "license": {
+        "PostgreSQL": "http://www.postgresql.org/about/licence"
+    },
+    "release_status": "stable",
+    "prereqs": {
+        "runtime": {
+            "requires": {
+                "Node.js": "0.10.12",
+                "PostgreSQL": "8.4.0"
+            },
+            "recommends": {
+                "PostgreSQL": "9.2.0"
+            }
+        }
+    },
+    "provides": {
+        "plnode": {
+            "file": "plnode--0.0.1.sql",
+            "docfile": "doc/plnode.md",
+            "version": "0.0.1",
+            "abstract": "A procedural language in JavaScript"
+         },
+        "plcoffee": {
+            "file": "plcoffee--1.5.0-dev1.sql",
+            "docfile": "doc/plnode.md",
+            "version": "1.5.0-dev1",
+            "abstract": "A procedural language in CoffeeScript"
+         },
+        "plls": {
+            "file": "plls--1.5.0-dev1.sql",
+            "docfile": "doc/plnode.md",
+            "version": "1.5.0-dev1",
+            "abstract": "A procedural language in LiveScript"
+         }
+    },
+    "resources": {
+        "homepage": "http://github.com/hoonto/plnode",
+        "bugtracker": {
+            "web": "http://github.com/hoonto/plnode"
+        },
+        "repository": {
+            "url":  "http://github.com/hoonto/plnode.git",
+            "web":  "http://github.com/hoonto/plnode.git",
+            "type": "git"
+        }
+    },
+    "meta-spec": {
+       "version": "1.0.0",
+       "url": "http://pgxn.org/meta/spec.txt"
+    },
+    "tags": [
+       "PL",
+       "JavaScript",
+       "Node.js"
+    ]
+}

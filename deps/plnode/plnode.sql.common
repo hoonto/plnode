@@ -1,0 +1,36 @@
+#include "pg_config.h"
+#if PG_VERSION_NUM < 90100
+-- adjust this setting to control where the objects get created.
+SET search_path = public;
+
+BEGIN;
+#endif
+
+CREATE FUNCTION @LANG_NAME@_call_handler() RETURNS language_handler
+	AS 'MODULE_PATHNAME' LANGUAGE C;
+
+#if PG_VERSION_NUM >= 90000
+CREATE FUNCTION @LANG_NAME@_inline_handler(internal) RETURNS void
+	AS 'MODULE_PATHNAME' LANGUAGE C;
+#endif
+
+CREATE FUNCTION @LANG_NAME@_call_validator(oid) RETURNS void
+	AS 'MODULE_PATHNAME' LANGUAGE C;
+
+CREATE TRUSTED LANGUAGE @LANG_NAME@
+	HANDLER @LANG_NAME@_call_handler
+#if PG_VERSION_NUM >= 90000
+	INLINE @LANG_NAME@_inline_handler
+#endif
+	VALIDATOR @LANG_NAME@_call_validator;
+
+#ifdef LANG_plnode
+CREATE DOMAIN plnode_int2array AS int2[];
+CREATE DOMAIN plnode_int4array AS int4[];
+CREATE DOMAIN plnode_float4array AS float4[];
+CREATE DOMAIN plnode_float8array AS float8[];
+#endif
+
+#if PG_VERSION_NUM < 90100
+COMMIT;
+#endif

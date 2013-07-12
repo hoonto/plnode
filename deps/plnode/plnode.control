@@ -1,0 +1,7 @@
+## plnode extension
+comment = 'PL/JavaScript (Node.js) trusted procedural language'
+default_version = '0.0.1'
+module_pathname = '$libdir/plnode'
+relocatable = false
+schema = pg_catalog
+superuser = true

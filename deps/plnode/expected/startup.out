@@ -1,0 +1,26 @@
+-- test startup failure
+set plnode.start_proc = foo;
+do $$ plnode.elog(NOTICE, 'foo = ' + foo) $$ language plnode;
+WARNING:  failed to find js function function "foo" does not exist
+ERROR:  ReferenceError: foo is not defined
+DETAIL:  undefined() LINE 1:  plnode.elog(NOTICE, 'foo = ' + foo) 
+\c
+set plnode.start_proc = startup;
+do $$ plnode.elog(NOTICE, 'foo = ' + foo) $$ language plnode;
+NOTICE:  foo = 14378
+update    plnode_modules set code = 'foo=98765;' where modname = 'startup';
+-- startup code should not be reloaded
+do $$ plnode.elog(NOTICE, 'foo = ' + foo) $$ language plnode;
+NOTICE:  foo = 14378
+do $$ load_module('testme'); plnode.elog (NOTICE,'bar = ' + bar);$$ language plnode;
+NOTICE:  loaded module: testme
+NOTICE:  bar = 98765
+CREATE ROLE someone_else;
+SET ROLE to someone_else;
+reset plnode.start_proc;
+-- should fail because of a reference error
+do $$ plnode.elog(NOTICE, 'foo = ' + foo) $$ language plnode;
+ERROR:  ReferenceError: foo is not defined
+DETAIL:  undefined() LINE 1:  plnode.elog(NOTICE, 'foo = ' + foo) 
+RESET ROLE;
+DROP ROLE someone_else;

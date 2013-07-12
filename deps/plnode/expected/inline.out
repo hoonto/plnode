@@ -1,0 +1,2 @@
+DO $$ plnode.elog(NOTICE, 'this', 'is', 'inline', 'code') $$ LANGUAGE plnode;
+NOTICE:  this is inline code

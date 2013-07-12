@@ -1,0 +1,15 @@
+#if defined LANG_plnode
+## plnode extension
+comment = 'PL/JavaScript (Node.js) trusted procedural language'
+#elif defined LANG_plcoffee
+## plcoffee extension
+comment = 'PL/CoffeeScript (Node.js) trusted procedural language'
+#elif defined LANG_plls
+## plls extension
+comment = 'PL/LiveScript (Node.js) trusted procedural language'
+#endif
+default_version = '@PLV8_VERSION@'
+module_pathname = '$libdir/plnode'
+relocatable = false
+schema = pg_catalog
+superuser = true

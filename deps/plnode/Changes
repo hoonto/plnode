@@ -1,0 +1,4 @@
+Revision history for plnode
+
+0.0.1       2013-07-07
+            - plnode = Node.js + PLV8; 
