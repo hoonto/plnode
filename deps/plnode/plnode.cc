@@ -1279,7 +1279,7 @@ GetNodeContext()
 	Oid					user_id = GetUserId();
 	Persistent<Context>	global_context;
 	unsigned int		i;
-    char *argv[] = {"plnode", "blah.js", NULL};
+    char *argv[] = {"plnode", NULL};
     int argc = sizeof(argv) / sizeof(char*) - 1;
 
     //// MLM: Added next 2 so we can pass them back to runContext for exit
@@ -1301,16 +1301,12 @@ GetNodeContext()
 		plnode_context		   *my_context;
 
         //// MLM: Here we start node, added next 3:
-	    elog(WARNING, "Hello 1");
         node::buildContext(argc, argv, globaltemplate, global_context, processref, argvcopyref);
-	    elog(WARNING, "Hello 2");
         
 		my_context = (plnode_context *) MemoryContextAlloc(TopMemoryContext, sizeof(plnode_context));
-	    elog(WARNING, "Hello 3");
 		my_context->context = global_context;
 		my_context->user_id = user_id;
 
-	    elog(WARNING, "Hello 4");
 		/*
 		 * Need to register it before running any code, as the code
 		 * recursively may want to the global context.
@@ -1322,7 +1318,6 @@ GetNodeContext()
 		 */
 		if (plnode_start_proc != NULL)
 		{
-	        elog(WARNING, "Hello, plnode_start_proc 1");
 			Local<Function>		func;
 
 			HandleScope			handle_scope;
@@ -1330,15 +1325,12 @@ GetNodeContext()
 			TryCatch			try_catch;
 			MemoryContext		ctx = CurrentMemoryContext;
 
-	        elog(WARNING, "Hello, plnode_start_proc 2");
 			PG_TRY();
 			{
-	        elog(WARNING, "Hello, plnode_start_proc 3");
 				func = find_js_function_by_name(plnode_start_proc);
 			}
 			PG_CATCH();
 			{
-	        elog(WARNING, "Hello, plnode_start_proc 4");
 				ErrorData	   *edata;
 
 				MemoryContextSwitchTo(ctx);
@@ -1348,11 +1340,9 @@ GetNodeContext()
 				FreeErrorData(edata);
 			}
 			PG_END_TRY();
-	        elog(WARNING, "Hello, plnode_start_proc 5");
 
 			if (!func.IsEmpty())
 			{
-	        elog(WARNING, "Hello, plnode_start_proc 6");
 				Handle<v8::Value>	result =
 					DoCall(func, global_context->Global(), 0, NULL);
 				if (result.IsEmpty())
@@ -1372,9 +1362,7 @@ GetNodeContext()
 	}
 
     // MLM: Now we can run the context:
-	elog(WARNING, "Hello 5");
     node::runContext(global_context, processref, argvcopyref);
-	elog(WARNING, "Hello 6");
 
 	return global_context;
 }

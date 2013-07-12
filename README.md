@@ -107,7 +107,7 @@ plnodetest=#
  
 Cool, PLV8 did not lead us astray.  But simply running some JS is not exactly what we're after.
 
-#### Step 5: Abomination, Heresy:
+#### Step 5: Heresy:
 
 **Note** This probably doesn't work yet, but it will soon be one of many neat tricks to come:
 
@@ -210,8 +210,80 @@ NOTICE:  init completed.
 
 Good, but where's my mainModule?  No mainModule, no require, not all of the dice yet
 
+#### Step 6: Abomination:
 
-(1 row)
+Added arguments, slightly modified some things, and now it will do this:
+
+```
+-bash-4.2$ psql -U postgres -p 20002
+Password for user postgres:
+psql (9.1.9)
+Type "help" for help.
+
+postgres=# \c livenode
+You are now connected to database "livenode" as user "postgres".
+livenode=# create extension plnode;
+CREATE EXTENSION
+livenode=# set plnode.start_proc='initnode';
+SET
+livenode=# create or replace function initnode() returns void as $$
+if(!!require) { var test = require('./testplnode.js'); } plnode.elog(NOTICE, 'init c
+ompleted.');
+$$ language plnode volatile;
+NOTICE:  init completed.
+The connection to the server was lost. Attempting reset: Failed.
+!> \q
+-bash-4.2$
+```
+
+where testplnode.js goes inside Postgres' data directory and contains:
+
+```
+-bash-4.2$ cat testplnode.js
+// filesystem test:
+var fs = require('fs');
+fs.openSync('./PLNODEWORKS', 'w');
+
+// server test:
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello World\n');
+}).listen(1337, '127.0.0.1');
+```
+
+and results are:
+
+```
+-bash-4.2$ pwd
+/var/lib/pgsql/data
+-bash-4.2$ ls
+base       pg_hba.conf    pg_notify    pg_tblspc    PLNODEWORKS      testplnode.js
+global     pg_ident.conf  pg_serial    pg_twophase  postgresql.conf
+import.js  pg_log         pg_stat_tmp  PG_VERSION   postmaster.opts
+pg_clog    pg_multixact   pg_subtrans  pg_xlog      postmaster.pid
+-bash-4.2$ netstat -an |grep 1337
+tcp        0      0 127.0.0.1:1337          0.0.0.0:*               LISTEN
+-bash-4.2$ telnet localhost 1337
+Trying ::1...
+telnet: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Connection closed by foreign host.
+```
+
+So it was able to import modules, write to the filesystem and start a server.
+When I connected, however, it immediately closed and in the psql console gave:
+
+```
+The connection to the server was lost. Attempting reset: Failed.
+!> \q
+-bash-4.2$
+```
+
+I didn't see the "Hello World", but it is a step closer as libuv did up the reference count due to the instantiation of the http server, as it should.
+
 References:
 ===
 * [Node itself](https://github.com/joyent/node)
