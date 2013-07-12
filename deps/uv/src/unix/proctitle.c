@@ -50,7 +50,8 @@ char** uv_setup_args(int argc, char** argv) {
 
   process_title.str = argv[0];
   process_title.len = argv[argc - 1] + strlen(argv[argc - 1]) - argv[0];
-  assert(process_title.len + 1 == size);  /* argv memory should be adjacent. */
+  //MLM: Not necessarily adjacent now.
+  //assert(process_title.len + 1 == size);  /* argv memory should be adjacent. */
 
   /* Add space for the argv pointers. */
   size += (argc + 1) * sizeof(char*);

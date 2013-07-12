@@ -3049,7 +3049,6 @@ static char **copy_argv(int argc, char **argv) {
 //MLM: Build a context for plnode
 void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate, Persistent<Context> &contextref, Handle<Object> &processref, char** &argvcopyref){
 
-    
   // Hack aroung with the argv pointer. Used for process.title = "blah".
   argv = uv_setup_args(argc, argv);
 
