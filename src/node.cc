@@ -2493,12 +2493,9 @@ void Load(Handle<Object> process_l) {
 
   f->Call(global, 1, args);
 
-  /// MLM: This fucks shit up
-  /*
   if (try_catch.HasCaught())  {
     FatalException(try_catch);
   }
-  */
 }
 
 static void PrintHelp();
@@ -3094,7 +3091,6 @@ int runContext(Persistent<Context> context, Handle<Object> process, char** argvc
   uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
 ////MLM: We don't exit.
-/*
   return 0;
 
   EmitExit(process);
@@ -3111,7 +3107,6 @@ int runContext(Persistent<Context> context, Handle<Object> process, char** argvc
 
   // Clean up the copy:
   free(argvcopy);
-*/
 
   return 0;
 }
