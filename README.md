@@ -11,7 +11,7 @@ More specifically, I began this fork in order to investigate taking the M in MV*
 
 Imagine evolving it with Postgres-XC, allowing for horizontally scalable Model, loosely coupled geographically disperse clusters using websockets to replicate data over JSON transport within transactions initiated by triggers, access to all of Node.js functionality and module library from inside the PL, running your entire stack out of the database. 
 
-And perhaps more useful is having all 20,000+ modules [npmjs.org](https://npmjs.org/)
+And perhaps more useful is having all 20,000+ modules at [npmjs.org](https://npmjs.org/)
 available inside Postgres.
 
 Heresy?  Abomination?  Irrelevent to edge efforts.
