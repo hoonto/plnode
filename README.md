@@ -7,11 +7,10 @@ git clone -b  v0.10.12-plnode-0.0.1  https://github.com/hoonto/plnode.git
 
 This is merely an edge effort.  An effort to add yet another edge to the rapid evolution of web-oriented frameworks.
 
-More specifically, I thought it would be interesting to to take some of the M in MV* and put it inside the database to lessen dependence on ORMs and DALs by taking advantage of Postgres' recent document-oriented achievements such as hstore and the json datatype and subsequent 9.2-9.3+ accoutrements.
+More specifically, I began this fork in order to investigate taking the M in MV* and put it inside the database to lessen dependence on ORMs/DALs/etc by taking advantage of Postgres' recent document-oriented achievements such as hstore and the json datatype and subsequent 9.2-9.3+ accoutrements. 
 
-Later, I'd like to further evolve it with Postgres-XC as well, allowing for a write-scalable multi-master and hopefully ultra-fast horizontally scaled Model.
+Imagine evolving it with Postgres-XC, allowing for horizontally scalable Model, loosely coupled geographically disperse clusters using websockets to replicate data over JSON transport within transactions initiated by triggers, access to all of Node.js functionality and module library from inside the PL, running your entire stack out of the database. 
 
-Another interesting thing that may become possible is running a full stack straight out of your database.  
 Heresy?  Abomination?  Irrelevent to edge efforts.
 
 Currently this is extremely alpha. It is based on [Node.js](http://nodejs.org/) and [PLV8](https://code.google.com/p/plv8js/wiki/PLV8) drawing heavily from both and attempting to change as little as possible while still achieving the goal.
@@ -41,7 +40,7 @@ and in node.gyp, around line 67-ish modify target type from executable to shared
 
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
-I debated about whether to stick Node into PLV8 or stick PLV8 into Node.  I like Node's project strucuture and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
+I debated about whether to stick Node into PLV8 or stick PLV8 into Node, replacing it's V8 references with Node's.  I like Node's project structure and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
 
 **Note:** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
 
