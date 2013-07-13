@@ -25,6 +25,8 @@ Current notes
 
 #### Step 1: Turn Node.js into a shared library:
 
+*This is already done if you clone plnode*
+
 in common.gypi, need '-fPIC' around line 163-ish:
 
 ```
