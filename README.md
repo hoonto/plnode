@@ -45,7 +45,7 @@ and in node.gyp, around line 67-ish modify target type from executable to shared
 
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
-*Already done if you clone plnode*
+*Already done if you clone plnode, but you will need to configure/make*
 
 I debated about whether to stick Node into PLV8 or stick PLV8 into Node, replacing it's V8 references with Node's.  I like Node's project structure and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
 
