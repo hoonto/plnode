@@ -22,6 +22,8 @@ plnode is like Grandpas chili peppers, tongue-lashing and hate-mail only make it
 
 ![peppers](http://static.hoonto.com/images/peppers.png)
 
+The notes below work for v0.10.12.  I have not tested on any other version but do know factually that the modifications to node.cc/node.h shown in this branch will NOT WORK for current mastee joyent/node branch.  However, you can use what is done here as a guide toward that end, the node::buildContext and node::runContext will need to take into account the latest changes on master for that to work.  I will be updating this later to include instructions for 0.11+ etc as time rolls on if either of a) folks are interested or b) I am interested.
+
 Current notes
 ===
 
