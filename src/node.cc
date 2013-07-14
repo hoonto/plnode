@@ -3082,7 +3082,7 @@ void buildContext(int argc, char *argv[], Handle<ObjectTemplate> globaltemplate,
 
 //MLM: runContext
 //     must call buildContext(0) first
-int runContext(Persistent<Context> context, Handle<Object> process, char** argvcopy){
+int runContext(Persistent<Context> context, Handle<Object> &process, char** argvcopy){
   // All our arguments are loaded. We've evaluated all of the scripts. We
   // might even have created TCP servers. Now we enter the main eventloop. If
   // there are no watchers on the loop (except for the ones that were
@@ -3091,9 +3091,11 @@ int runContext(Persistent<Context> context, Handle<Object> process, char** argvc
   uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
 ////MLM: We don't exit.
-  return 0;
 
   EmitExit(process);
+  return 0;
+  /*
+
   RunAtExit();
 
 #ifndef NDEBUG
@@ -3109,6 +3111,7 @@ int runContext(Persistent<Context> context, Handle<Object> process, char** argvc
   free(argvcopy);
 
   return 0;
+  */
 }
 
 int Start(int argc, char *argv[]) {

@@ -27,7 +27,7 @@ Current notes
 
 #### Step 1: Turn Node.js into a shared library:
 
-*This is already done if you clone plnode*
+*Is already done if you clone plnode*
 
 in common.gypi, need '-fPIC' around line 163-ish:
 
@@ -43,6 +43,8 @@ and in node.gyp, around line 67-ish modify target type from executable to shared
 
 #### Step 2: Take [PLV8](http://pgxn.org/dist/plv8/) and put it into deps
 
+*Already done if you clone plnode*
+
 I debated about whether to stick Node into PLV8 or stick PLV8 into Node, replacing it's V8 references with Node's.  I like Node's project structure and it is certainly the larger source base plus there's gyp and so forth all ready to go.  So going that route I modified plv8 source to be named plnode and stuck that into Node's deps, adding gyp, dropping makefiles etc.
 
 **Note:** node.cc got a couple of functions so it could baste itself in that seemingly ubiquitous touch-feely node-love. 
@@ -57,6 +59,8 @@ make
 Find a shared library here:  ./out/Release/lib.target/libnode.so
 
 #### Step 3: Make the PL extension.
+
+*Done if you clone plnode, but you will need to copy the .sql, .so, .control as shown below*
 
 This should be done in a gyp action probably node.gyp, but for now just manually copying is fine.
 
