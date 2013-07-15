@@ -86,7 +86,7 @@ cp ./deps/plnode/plnode--1.4.1.sql /usr/share/pgsql/extension/
 
 #### Step 4: Load it up!
 
-**Node:** I'm using an old postgres-XC coordinator port convention:
+**Note:** I'm using an old postgres-XC coordinator port convention:
 
 ```
 psql -U postgres -p 20002
