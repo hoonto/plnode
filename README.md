@@ -1,7 +1,7 @@
 plnode
 ===
 
-### Evented I/O for Javascript via Node.js stuffed straight up Postgres' sweet PL.
+### Evented I/O for Javascript via Node.js stuffed into Postgres as a Procedural Language.
 
 git clone -b  v0.10.12-plnode-0.0.1  https://github.com/hoonto/plnode.git
 
